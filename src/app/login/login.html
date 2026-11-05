@@ -1,1 +1,51 @@
-<p>login works!</p>
+<section class="tarjeta angosta" aria-labelledby="titulo-login">
+  <h1 id="titulo-login">Iniciar sesión</h1>
+  <p class="subtitulo">Use su usuario del sistema de inventario.</p>
+
+  <!-- Viene del registro: ?registrado=ana -->
+  @if (registrado()) {
+  <p class="alerta exito" role="status">
+    Cuenta <strong>{{ registrado() }}</strong> creada. Ya puede iniciar sesión.
+  </p>
+  }
+
+  @if (error()) {
+  <p class="alerta" role="alert">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="ingresar()" novalidate>
+    <div class="campo">
+      <label for="username">Usuario</label>
+      <input
+        id="username"
+        formControlName="username"
+        autocomplete="username"
+        [attr.aria-invalid]="invalido('username')"
+      />
+      @if (invalido('username')) {
+      <span class="error-campo">El usuario es obligatorio</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+        [attr.aria-invalid]="invalido('password')"
+      />
+      @if (invalido('password')) {
+      <span class="error-campo">La contraseña es obligatoria</span>
+      }
+    </div>
+
+    <div class="acciones-form">
+      <button type="submit" [disabled]="cargando()">
+        {{ cargando() ? 'Ingresando…' : 'Ingresar' }}
+      </button>
+      <a routerLink="/registro">Crear una cuenta</a>
+    </div>
+  </form>
+</section>
