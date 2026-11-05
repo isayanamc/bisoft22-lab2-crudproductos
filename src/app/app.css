@@ -1,0 +1,65 @@
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding: 12px 24px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px #e4e4ec;
+}
+
+.marca {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #4f4cc0;
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #1f1f24;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a.activo {
+  background: #e8e7fa;
+}
+
+nav a.activo {
+  color: #4f4cc0;
+  font-weight: 600;
+}
+
+.sesion {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rol {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e8e7fa;
+  color: #4f4cc0;
+  font-size: 0.8rem;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
