@@ -2,22 +2,21 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px 24px;
+  gap: 12px 24px;
   padding: 12px 24px;
-  background: #ffffff;
-  box-shadow: 0 4px 20px #e4e4ec;
+  background: #fff;
+  border-bottom: 1px solid #ddd2ec;
 }
 
 .marca {
-  font-weight: 700;
   font-size: 1.2rem;
-  color: #4f4cc0;
+  font-weight: 700;
+  color: #6b3fa0;
   text-decoration: none;
 }
 
 nav ul {
   display: flex;
-  flex-wrap: wrap;
   gap: 4px;
   list-style: none;
   margin: 0;
@@ -26,19 +25,18 @@ nav ul {
 
 nav a {
   display: block;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: #1f1f24;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: #2b2238;
   text-decoration: none;
 }
-
-nav a:hover,
-nav a.activo {
-  background: #e8e7fa;
+nav a:hover {
+  background: #f1eafa;
 }
 
 nav a.activo {
-  color: #4f4cc0;
+  background: #f1eafa;
+  color: #6b3fa0;
   font-weight: 600;
 }
 
@@ -48,14 +46,20 @@ nav a.activo {
   align-items: center;
   gap: 12px;
 }
-
 .rol {
   margin-left: 6px;
   padding: 2px 8px;
-  border-radius: 999px;
-  background: #e8e7fa;
-  color: #4f4cc0;
+  border-radius: 6px;
+  background: #f1eafa;
+  color: #6b3fa0;
   font-size: 0.8rem;
+}
+.salir {
+  background: #fff;
+  color: #6b3fa0;
+}
+.salir:hover {
+  background: #f1eafa;
 }
 
 main {

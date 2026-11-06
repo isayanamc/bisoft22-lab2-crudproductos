@@ -23,7 +23,7 @@
         {{ auth.nombre() }}
         <span class="rol">{{ auth.esAdmin() ? 'Administrador' : 'Usuario' }}</span>
       </span>
-    <button type="button" (click)="auth.logout()">Cerrar sesión</button>
+    <button type="button" class="salir" (click)="auth.logout()">Cerrar sesión</button>
   </div>
   }
 </header>
