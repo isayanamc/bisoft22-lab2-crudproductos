@@ -1,1 +1,56 @@
-<p>categorias works!</p>
+<div class="encabezado">
+  <div>
+    <h1>Categorías</h1>
+    <p>{{ categorias().length }} categoría(s) registradas</p>
+  </div>
+  @if (auth.esAdmin()) {
+  <a class="boton" routerLink="/categorias/nueva">Nueva categoría</a>
+  }
+</div>
+
+@if (!auth.esAdmin()) {
+<p class="aviso">Modo consulta: su rol permite ver las categorías, pero no crearlas, editarlas ni eliminarlas.</p>
+}
+
+@if (mensaje()) {
+<p class="alerta exito" role="status">{{ mensaje() }}</p>
+}
+@if (error()) {
+<p class="alerta" role="alert">{{ error() }}</p>
+}
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Descripción</th>
+      @if (auth.esAdmin()) {
+      <th scope="col">Acciones</th>
+      }
+    </tr>
+    </thead>
+    <tbody>
+    @for (categoria of categorias(); track categoria.id) {
+    <tr>
+      <td>{{ categoria.id }}</td>
+      <td>{{ categoria.nombre }}</td>
+      <td>{{ categoria.descripcion || '—' }}</td>
+      @if (auth.esAdmin()) {
+      <td class="acciones">
+        <a class="boton secundario" [routerLink]="['/categorias', categoria.id, 'editar']">Editar</a>
+        <button type="button" class="peligro" (click)="eliminar(categoria)">Eliminar</button>
+      </td>
+      }
+    </tr>
+    } @empty {
+    <tr>
+      <td class="vacio" [attr.colspan]="auth.esAdmin() ? 4 : 3">
+        {{ cargando() ? 'Cargando categorías…' : 'No hay categorías registradas.' }}
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>

@@ -1,1 +1,37 @@
-<p>categoria-form works!</p>
+<section class="tarjeta angosta" aria-labelledby="titulo-categoria">
+  <h1 id="titulo-categoria">{{ esEdicion() ? 'Editar categoría' : 'Nueva categoría' }}</h1>
+
+  @if (error()) {
+  <p class="alerta" role="alert">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+  <p role="status">Cargando…</p>
+  } @else {
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre" [attr.aria-invalid]="invalido('nombre')" />
+      @if (invalido('nombre')) {
+      <span class="error-campo">Obligatorio, máximo 100 caracteres</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción (opcional)</label>
+      <textarea id="descripcion" rows="3" formControlName="descripcion"
+                [attr.aria-invalid]="invalido('descripcion')"></textarea>
+      @if (invalido('descripcion')) {
+      <span class="error-campo">Máximo 255 caracteres</span>
+      }
+    </div>
+
+    <div class="acciones-form">
+      <button type="submit" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : esEdicion() ? 'Guardar cambios' : 'Registrar categoría' }}
+      </button>
+      <a routerLink="/categorias">Cancelar</a>
+    </div>
+  </form>
+  }
+</section>
