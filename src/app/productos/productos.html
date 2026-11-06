@@ -1,1 +1,64 @@
-<p>productos works!</p>
+<div class="encabezado">
+  <div>
+    <h1>Productos</h1>
+    <p>{{ productos().length }} producto(s) registrados</p>
+  </div>
+  <!-- Solo el admin puede crear -->
+  @if (auth.esAdmin()) {
+  <a class="boton" routerLink="/productos/nuevo">Nuevo producto</a>
+  }
+</div>
+
+<!-- Al USER se le explica por qué no ve botones -->
+@if (!auth.esAdmin()) {
+<p class="aviso">Modo consulta: su rol permite ver los productos, pero no crearlos, editarlos ni eliminarlos.</p>
+}
+
+@if (mensaje()) {
+<p class="alerta exito" role="status">{{ mensaje() }}</p>
+}
+@if (error()) {
+<p class="alerta" role="alert">{{ error() }}</p>
+}
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Categoría</th>
+      <th scope="col" class="numero">Precio</th>
+      <th scope="col" class="numero">Stock</th>
+      @if (auth.esAdmin()) {
+      <th scope="col">Acciones</th>
+      }
+    </tr>
+    </thead>
+    <tbody>
+    @for (producto of productos(); track producto.id) {
+    <tr>
+      <td>{{ producto.id }}</td>
+      <td>{{ producto.nombre }}</td>
+      <td>{{ producto.descripcion || '—' }}</td>
+      <td>{{ producto.categoriaNombre || '—' }}</td>
+      <td class="numero">{{ producto.precio | currency: 'CRC' : 'symbol-narrow' : '1.2-2' }}</td>
+      <td class="numero">{{ producto.stock }}</td>
+      @if (auth.esAdmin()) {
+      <td class="acciones">
+        <a class="boton secundario" [routerLink]="['/productos', producto.id, 'editar']">Editar</a>
+        <button type="button" class="peligro" (click)="eliminar(producto)">Eliminar</button>
+      </td>
+      }
+    </tr>
+    } @empty {
+    <tr>
+      <td class="vacio" [attr.colspan]="auth.esAdmin() ? 7 : 6">
+        {{ cargando() ? 'Cargando productos…' : 'No hay productos registrados.' }}
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>
