@@ -1,1 +1,50 @@
-<p>usuarios works!</p>
+<div class="encabezado">
+  <div>
+    <h1>Usuarios</h1>
+    <p>{{ usuarios().length }} usuario(s) registrados</p>
+  </div>
+</div>
+
+@if (error()) {
+<p class="alerta" role="alert">{{ error() }}</p>
+}
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">Usuario</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Rol</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Registrado</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (usuario of usuarios(); track usuario.id) {
+    <tr>
+      <td>{{ usuario.username }}</td>
+      <td>{{ usuario.firstName }} {{ usuario.lastName }}</td>
+      <td>{{ usuario.email || '—' }}</td>
+      <td>
+        <!-- Un usuario puede tener más de un rol: se muestra cada uno -->
+        @for (rol of usuario.roles; track rol) {
+        <span class="etiqueta">{{ rol }}</span>
+        } @empty {
+        —
+        }
+      </td>
+      <td>{{ usuario.enabled ? 'Activo' : 'Deshabilitado' }}</td>
+      <td>{{ usuario.createdTimestamp ? (usuario.createdTimestamp | date: 'dd/MM/yyyy') : '—' }}</td>
+    </tr>
+    } @empty {
+    <tr>
+      <td class="vacio" colspan="6">
+        {{ cargando() ? 'Cargando usuarios…' : 'No hay usuarios registrados.' }}
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>
