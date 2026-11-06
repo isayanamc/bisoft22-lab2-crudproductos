@@ -1,1 +1,77 @@
-<p>producto-form works!</p>
+<section class="tarjeta angosta" aria-labelledby="titulo-producto">
+  <!-- El mismo componente cambia de título según el modo -->
+  <h1 id="titulo-producto">{{ esEdicion() ? 'Editar producto' : 'Nuevo producto' }}</h1>
+
+  @if (error()) {
+  <p class="alerta" role="alert">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+  <p role="status">Cargando…</p>
+  } @else {
+  <!-- Sin categorías no se puede crear un producto -->
+  @if (categorias().length === 0) {
+  <p class="aviso">
+    Primero debe existir al menos una categoría.
+    <a routerLink="/categorias/nueva">Crear categoría</a>
+  </p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre" [attr.aria-invalid]="invalido('nombre')" />
+      @if (invalido('nombre')) {
+      <span class="error-campo">Obligatorio, máximo 100 caracteres</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción (opcional)</label>
+      <textarea id="descripcion" rows="3" formControlName="descripcion"
+                [attr.aria-invalid]="invalido('descripcion')"></textarea>
+      @if (invalido('descripcion')) {
+      <span class="error-campo">Máximo 255 caracteres</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="precio">Precio (₡)</label>
+      <input id="precio" type="number" min="0" step="0.01" formControlName="precio"
+             [attr.aria-invalid]="invalido('precio')" />
+      @if (invalido('precio')) {
+      <span class="error-campo">Obligatorio y no negativo</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="stock">Stock</label>
+      <input id="stock" type="number" min="0" step="1" formControlName="stock"
+             [attr.aria-invalid]="invalido('stock')" />
+      @if (invalido('stock')) {
+      <span class="error-campo">Número entero, no negativo</span>
+      }
+    </div>
+
+    <div class="campo">
+      <label for="categoriaId">Categoría</label>
+      <select id="categoriaId" formControlName="categoriaId" [attr.aria-invalid]="invalido('categoriaId')">
+        <option [ngValue]="null" disabled>Seleccione una categoría</option>
+        @for (categoria of categorias(); track categoria.id) {
+        <option [ngValue]="categoria.id">{{ categoria.nombre }}</option>
+        }
+      </select>
+      @if (invalido('categoriaId')) {
+      <span class="error-campo">Seleccione una categoría</span>
+      }
+    </div>
+
+    <div class="acciones-form">
+      <button type="submit" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : esEdicion() ? 'Guardar cambios' : 'Registrar producto' }}
+      </button>
+      <a routerLink="/productos">Cancelar</a>
+    </div>
+  </form>
+  }
+</section>
