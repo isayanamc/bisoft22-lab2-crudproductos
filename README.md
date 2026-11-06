@@ -1,59 +1,59 @@
-# Bisoft22Lab2Crudproductos
+# Laboratorio 2 – CRUD front-end
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.5.
+**Estudiante:** Isayana Mariel Murillo Calderón
+**Curso:** BISOFT-22 Proyecto de Ingeniería del Software 3
 
-## Development server
+Front-end en Angular que consume la API del Laboratorio 1 para administrar productos y categorías, con inicio de sesión, registro y roles.
 
-To start a local development server, run:
+API (Laboratorio 1): https://github.com/isayanamc/bisoft22-lab1-crudproductos
 
-```bash
-ng serve
-```
+## Cómo correrlo
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 1. Back-end (repositorio del Lab 1)
 
 ```bash
-ng generate component component-name
+cd docker
+docker compose up -d
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Después correr `Lab1Application` en IntelliJ. La API queda en `http://localhost:8080`.
+
+> La primera vez, si Keycloak ya existía de antes, hay que correr `docker compose down -v` antes del `up -d` para que cargue el realm actualizado.
+
+### 2. Front-end (este repositorio)
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+Abrir `http://localhost:4200`.
 
-To build the project run:
+## Usuarios de prueba
 
-```bash
-ng build
-```
+| Usuario | Contraseña | Rol |
+|---|---|---|
+| admin | admin123 | SUPER-ADMIN-ROLE |
+| usuario | usuario123 | USER |
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Los usuarios que se crean desde **Registrarse** quedan con rol USER.
 
-## Running unit tests
+## Qué puede hacer cada rol
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+| Acción | USER | SUPER-ADMIN-ROLE |
+|---|---|---|
+| Ver productos y categorías | Sí | Sí |
+| Crear, editar y eliminar | No | Sí |
+| Ver la página de usuarios | No | Sí |
 
-```bash
-ng test
-```
+El USER ve las listas sin los botones de acciones. La página de usuarios está restringida por el menú (no aparece el enlace) y por URL (si se escribe a mano, lleva a "Acceso restringido"). La API también lo valida con `@PreAuthorize`.
 
-## Running end-to-end tests
+## Estructura
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `interfaces/` – modelos de datos (iguales a los DTO de la API)
+- `services/` – llamadas HTTP a la API y manejo de la sesión
+- `interceptors/` – agrega el token a cada petición
+- `guards/` – restringen las rutas según el rol
+- `productos/`, `categorias/` – listas
+- `producto-form/`, `categoria-form/` – un solo componente para crear y editar
+- `login/`, `registro/`, `usuarios/`, `no-autorizado/`
